@@ -1,13 +1,15 @@
 import app from "./app";
-const PORT = process.env.PORT || 5000
-import { prisma } from "../lib/prisma"
+import { env } from "./config/env";
+import { prisma } from "./lib/prisma.ts"
+
+
 const bootStrap = async () => {
     try {
         await prisma.$connect();
         console.log("✅ Database Connected Successfully");
 
-        app.listen(PORT, () => {
-            console.log(`🚀 server is running on ${PORT}`)
+        app.listen(env.PORT, () => {
+            console.log(`🚀 server is running on ${env.PORT}`)
         });
     } catch (error) {
         console.log("database connection failed", error)
