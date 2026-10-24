@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+/* Neo-brutalism tokens: flat bright colors, thick ink borders, hard offset shadows */
+@theme {
+  --color-ink: #111111;
+  --color-paper: #f1edff;
+  --color-cream: #fbfaff;
+  --color-yellow: #ffd23f;
+  --color-pink: #ff7eb6;
+  --color-blue: #5b8cff;
+  --color-green: #3ee08f;
+  --color-red: #ff5d5d;
+  --color-purple: #b69cff;
+  --color-orange: #ff9f45;
+
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo-black), var(--font-space-grotesk), sans-serif;
+  --font-mono: var(--font-space-mono), ui-monospace, monospace;
+
+  --shadow-brutal-sm: 3px 3px 0 0 var(--color-ink);
+  --shadow-brutal: 5px 5px 0 0 var(--color-ink);
+  --shadow-brutal-lg: 8px 8px 0 0 var(--color-ink);
+  --shadow-brutal-xl: 12px 12px 0 0 var(--color-ink);
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  /* Graph paper: thin grid with a stronger line every 4 cells */
+  background-color: var(--color-paper);
+  background-image:
+    linear-gradient(rgb(17 17 17 / 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(17 17 17 / 0.1) 1px, transparent 1px),
+    linear-gradient(rgb(17 17 17 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(17 17 17 / 0.045) 1px, transparent 1px);
+  background-size:
+    96px 96px,
+    96px 96px,
+    24px 24px,
+    24px 24px;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-yellow);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+/* ---------- Patterns ---------- */
+
+/* Graph paper lines */
+@utility bg-grid-paper {
+  background-image:
+    linear-gradient(rgb(17 17 17 / 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(17 17 17 / 0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Diagonal hatching, sits on top of any bg color */
+@utility bg-stripes {
+  background-image: repeating-linear-gradient(-45deg, rgb(17 17 17 / 0.13) 0 2px, transparent 2px 10px);
+}
+
+/* Row of ink triangles, used as a section divider */
+@utility zigzag {
+  height: 12px;
+  background: conic-gradient(from -45deg at bottom, var(--color-ink) 90deg, transparent 0) 50% / 24px 100% repeat-x;
+}
+
+/* Piece of sticky tape stuck on a card */
+@utility tape {
+  position: absolute;
+  height: 26px;
+  width: 96px;
+  background-color: rgb(255 255 255 / 0.55);
+  background-image: repeating-linear-gradient(90deg, rgb(17 17 17 / 0.07) 0 1px, transparent 1px 6px);
+  border-left: 2px dashed rgb(17 17 17 / 0.25);
+  border-right: 2px dashed rgb(17 17 17 / 0.25);
+  backdrop-filter: blur(1px);
+  pointer-events: none;
+}
+
+/* Comic starburst shape */
+@utility starburst {
+  clip-path: polygon(
+    50% 0%, 61% 15%, 79% 9%, 81% 27%, 98% 35%, 88% 50%, 98% 65%, 81% 73%, 79% 91%, 61% 85%,
+    50% 100%, 39% 85%, 21% 91%, 19% 73%, 2% 65%, 12% 50%, 2% 35%, 19% 27%, 21% 9%, 39% 15%
+  );
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 22s linear infinite;
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility animate-spin-slow {
+  animation: spin-slow 14s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

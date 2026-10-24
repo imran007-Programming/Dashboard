@@ -18,7 +18,7 @@ enum Role {
   ADMIN
 }
 
-enum projectStatus {
+enum ProjectStatus {
   PENDING
   APPROVED
   REJECTED
@@ -27,7 +27,7 @@ enum projectStatus {
 model User {
   id        String    @id @default(uuid())
   name      String
-  emial     String    @unique
+  email     String    @unique
   password  String
   role      Role      @default(STUDENT)
   createdAt DateTime  @default(now())
@@ -36,10 +36,11 @@ model User {
 
 model Project {
   id          String        @id @default(uuid())
+  name        String
   repoUrl     String        @unique
   liveLink    String
   description String
-  status      projectStatus @default(PENDING)
+  status      ProjectStatus @default(PENDING)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
