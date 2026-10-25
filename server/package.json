@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js",
+    "build": "prisma generate && prisma migrate deploy",
+    "start": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit",
     "migrate": "npx prisma migrate dev --name init",
     "generare": "npx prisma generate",
     "studio": "prisma studio",
@@ -16,21 +17,32 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": ">=22"
+  },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
     "dotenv": "^18.0.8",
     "express": "^5.3.0",
     "express-rate-limit": "^8.7.1",
     "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.1",
+    "prisma": "^7.10.1",
+    "tsx": "^4.23.15",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.6.5",
+    "@types/pg": "^8.23.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^7.0.2"
   }
