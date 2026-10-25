@@ -39,10 +39,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col">
         <AuthProvider>
           <Navbar />
-          <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">{children}</main>
+          <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 sm:py-12">{children}</main>
           <div className="zigzag" aria-hidden />
           <footer className="bg-ink text-cream">
-            <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-10 sm:px-6 md:flex-row md:items-center md:justify-between">
+            <div className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-10 sm:px-6 md:flex-row md:items-center md:justify-between">
               <div>
                 <Link href="/" className="inline-flex items-center gap-2" aria-label="Devfolio Hub home">
                   <span className="border-[3px] border-cream bg-yellow px-2 py-0.5 font-display text-lg text-ink shadow-[3px_3px_0_0_var(--color-cream)]">
@@ -70,7 +70,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               </nav>
             </div>
             <div className="border-t-[3px] border-cream/20">
-              <p className="mx-auto max-w-6xl px-4 py-4 font-mono text-xs text-cream/60 sm:px-6">© Devfolio Hub · Made for students</p>
+              <p className="mx-auto max-w-7xl px-4 py-4 font-mono text-xs text-cream/60 sm:px-6">© Devfolio Hub · Made for students</p>
             </div>
           </footer>
         </AuthProvider>

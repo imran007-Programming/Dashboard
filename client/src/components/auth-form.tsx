@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, type FormEvent } from "react";
 import { ApiError } from "@/lib/api";
+import { loginSchema, signupSchema, zodFieldErrors } from "@/lib/schemas";
 import type { SignupRole } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useAuth } from "./auth-provider";
@@ -84,10 +85,21 @@ export function AuthForm({ mode }: { mode: Mode }) {
     const email = String(data.get("email") ?? "");
     const password = String(data.get("password") ?? "");
 
-    run(
-      () => (mode === "signup" ? signup({ name: String(data.get("name") ?? ""), email, password, role }) : login({ email, password })),
-      form,
-    );
+    // Validate with Zod first; the server runs the same schema again
+    if (mode === "signup") {
+      const result = signupSchema.safeParse({ name: String(data.get("name") ?? ""), email, password, role });
+      if (!result.success) return showClientErrors(result.error);
+      run(() => signup(result.data), form);
+    } else {
+      const result = loginSchema.safeParse({ email, password });
+      if (!result.success) return showClientErrors(result.error);
+      run(() => login(result.data), form);
+    }
+  }
+
+  function showClientErrors(error: Parameters<typeof zodFieldErrors>[0]) {
+    setFormError("");
+    setErrors(zodFieldErrors(error));
   }
 
   function demoLogin(email: string) {

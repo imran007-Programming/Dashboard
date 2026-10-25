@@ -3,20 +3,21 @@
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { ApiError, projectApi } from "@/lib/api";
+import { createProjectSchema, zodFieldErrors } from "@/lib/schemas";
 import type { Project, ProjectInput } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Alert, Button, Card, Field, Input, LinkButton, Textarea, Window } from "../ui";
 
 const empty: ProjectInput = { name: "", repoUrl: "", liveLink: "", description: "" };
 
-const isUrl = (value: string) => URL.canParse(value) && /^https?:\/\//.test(value);
+// Checklist ticks come from the same Zod schema, one field at a time
+const passes = (field: keyof ProjectInput, v: ProjectInput) => createProjectSchema.shape[field].safeParse(v[field]).success;
 
-// Same rules as the API schema, so most mistakes are caught before the request
-const rules: { field: keyof ProjectInput; label: string; check: (v: ProjectInput) => boolean; message: string }[] = [
-  { field: "name", label: "Name is 3–100 characters", check: (v) => v.name.trim().length >= 3 && v.name.trim().length <= 100, message: "Name must be 3–100 characters" },
-  { field: "repoUrl", label: "Repo is a github.com link", check: (v) => v.repoUrl.trim().startsWith("https://github.com/") && isUrl(v.repoUrl.trim()), message: "Repository URL must start with https://github.com/" },
-  { field: "liveLink", label: "Live link is a valid URL", check: (v) => isUrl(v.liveLink.trim()), message: "Please provide a valid live link" },
-  { field: "description", label: "Description is 20–1000 characters", check: (v) => v.description.trim().length >= 20 && v.description.trim().length <= 1000, message: "Description must be 20–1000 characters" },
+const rules: { field: keyof ProjectInput; label: string; check: (v: ProjectInput) => boolean }[] = [
+  { field: "name", label: "Name is 3–100 characters", check: (v) => passes("name", v) },
+  { field: "repoUrl", label: "Repo is a github.com link", check: (v) => passes("repoUrl", v) },
+  { field: "liveLink", label: "Live link is a valid URL", check: (v) => passes("liveLink", v) },
+  { field: "description", label: "Description is 20–1000 characters", check: (v) => passes("description", v) },
 ];
 
 interface ProjectFormProps {
@@ -44,13 +45,15 @@ export function ProjectForm({ project }: ProjectFormProps) {
     e.preventDefault();
     setFormError("");
 
-    const failed = rules.filter((r) => !r.check(values));
-    if (failed.length > 0) {
-      setErrors(Object.fromEntries(failed.map((r) => [r.field, r.message])));
+    // Validate with Zod before the request; the server runs the same schema again
+    const result = createProjectSchema.safeParse(values);
+    if (!result.success) {
+      setErrors(zodFieldErrors(result.error));
       return;
     }
 
-    const trimmed = Object.fromEntries(Object.entries(values).map(([k, v]) => [k, v.trim()])) as ProjectInput;
+    // Parsed data is already trimmed by the schema
+    const trimmed: ProjectInput = result.data;
 
     // On edit, send only the fields that changed
     const changes = isEdit

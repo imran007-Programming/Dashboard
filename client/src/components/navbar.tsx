@@ -9,7 +9,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b-[3px] border-ink bg-cream">
-      <nav className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
+      <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-2" aria-label="Devfolio Hub home">
           <span className="border-[3px] border-ink bg-yellow px-2 py-0.5 font-display text-lg shadow-brutal-sm">DEVFOLIO</span>
           <span className="font-display text-lg">/HUB</span>

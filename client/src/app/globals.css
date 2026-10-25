@@ -1,17 +1,18 @@
 @import "tailwindcss";
 
-/* Neo-brutalism tokens: flat bright colors, thick ink borders, hard offset shadows */
+/* Neo-brutalism tokens: flat bright colors, thick ink borders, hard offset shadows.
+   Palette: "Retro Pop". Token names stay the same, the values are the retro versions. */
 @theme {
   --color-ink: #111111;
-  --color-paper: #f1edff;
-  --color-cream: #fbfaff;
-  --color-yellow: #ffd23f;
-  --color-pink: #ff7eb6;
-  --color-blue: #5b8cff;
-  --color-green: #3ee08f;
-  --color-red: #ff5d5d;
-  --color-purple: #b69cff;
-  --color-orange: #ff9f45;
+  --color-paper: #fff1e0; /* warm cream */
+  --color-cream: #fff8ee;
+  --color-yellow: #ffc93c; /* mustard */
+  --color-pink: #ff6b4a; /* tomato, main CTA */
+  --color-blue: #5b7bff; /* cobalt */
+  --color-green: #2ec4b6; /* teal */
+  --color-red: #f25f5c; /* brick red */
+  --color-purple: #c3a6ff; /* lilac */
+  --color-orange: #ff914d; /* tangerine */
 
   --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-archivo-black), var(--font-space-grotesk), sans-serif;
